@@ -1,0 +1,38 @@
+{
+    "fixVersion": "v1.5.0",
+    "releaseMetaInformation": [
+        { "name": "Release Date", "value": "2023-10-27" },
+        { "name": "Environment", "value": "PROD" }
+    ],
+    "projects": ["SRS", "PLMW2"],
+    "space": "Stadler Rail PLM Documentation",
+    "parentPage": "Release Notes",
+    "fallBackTitleEmoji": "🆕",
+    "releaseNotesField": "customfield_10065",
+    "missingReleaseNotesText": "No release notes available.",
+    "content": {
+        "additionalPageProperties": [
+            { "name": "BMIDE Version", "value": "1.5.0.5" }
+        ],
+        "sections": [
+            {
+                "emoji": "new",
+                "title": "Features",
+                "subTitle": "Here is what's new in Teamcenter / Active Workspace.",
+                "includeIssueTypes": ["Story", "Sub-Task"]
+            },
+            {
+                "emoji": "rocket",
+                "title": "Improvements",
+                "subTitle": "Existing features that got an overhaul and are now even better than before.",
+                "includeIssueTypes": ["Improvement"]
+            },
+            {
+                "emoji": "lady_beetle",
+                "title": "Bug fixes",
+                "subTitle": "Bugs are annoying, so they were removed.",
+                "includeIssueTypes": ["Bug"]
+            }
+        ]
+    }
+}
