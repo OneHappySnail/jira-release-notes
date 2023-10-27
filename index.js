@@ -6,7 +6,8 @@ require("dotenv").config();
 const atlassian = require("./src/atlassian");
 const releaseNotes = require("./src/releaseNotes");
 const logger = require("./src/logger");
-const configProvider = require("./src/configProvider");
+const ConfigProvider = require("./src/configProvider");
+const config = require("./config.json");
 
 /** @const DEBUG global debug on (print full errors including stack trace to console) */
 const DEBUG = false;
@@ -14,6 +15,7 @@ const DEBUG = false;
 (async function main() {
     try {
         // Validate and load configuration
+        const configProvider = new ConfigProvider(config);
         if (!configProvider.validate()) return;
 
         // Get the space id

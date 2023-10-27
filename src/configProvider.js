@@ -42,118 +42,125 @@ const CONFIG_SCHEMA = Joi.object({
     }),
 });
 
-/**
- * Validate the JSON configuration
- */
-function validate() {
-    const { error } = CONFIG_SCHEMA.validate(CONFIG, { abortEarly: false });
-    if (error) {
-        error.details.forEach((detail) => {
-            logger.error(
-                `Configuration error: ${detail.message}. Path: ${JSON.stringify(
-                    detail.path
-                )}`
-            );
-        });
-        return false;
+class ConfigProvider {
+    #config = {};
+    constructor(config) {
+        this.#config = config;
     }
-    return true;
+
+    /**
+     * Validate the JSON configuration
+     * @public
+     */
+    validate() {
+        if ((Object.keys(this.#config).length = 0)) return false;
+        const { error } = CONFIG_SCHEMA.validate(CONFIG, { abortEarly: false });
+        if (error) {
+            error.details.forEach((detail) => {
+                logger.error(
+                    `Configuration error: ${
+                        detail.message
+                    }. Path: ${JSON.stringify(detail.path)}`
+                );
+            });
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Get the fix version
+     * @public
+     * @returns {string} fix version
+     */
+    getFixVersion() {
+        return this.#config.fixVersion;
+    }
+
+    /**
+     * Get the page properties
+     * @public
+     * @returns {Array} Page properties
+     */
+    getPageProperties() {
+        return [
+            { name: "Fix Version", value: this.#config.fixVersion },
+            ...this.#config.releaseMetaInformation,
+            ...this.#config.content.additionalPageProperties,
+        ];
+    }
+
+    /**
+     * Get the sections for the release notes
+     * @public
+     * @returns {Array} Sections
+     */
+    getSections() {
+        return this.#config.content.sections;
+    }
+
+    /**
+     * Get the Jira field that contains the release notes
+     * @public
+     * @returns {string} Jira release notes field
+     */
+    getReleaseNotesField() {
+        return this.#config.releaseNotesField;
+    }
+
+    /**
+     * Get the fallback emoji
+     * @public
+     * @returns {string} fallback emoji
+     */
+    getFallbackEmoji() {
+        return this.#config.fallBackTitleEmoji;
+    }
+
+    /**
+     * Get the missing release notes text
+     * @public
+     * @returns {string} The text for missing release notes
+     */
+    getMissingReleaseNotesText() {
+        return this.#config.missingReleaseNotesText;
+    }
+
+    /**
+     * Get the name for the release notes page
+     * @public
+     * @returns {string} The name for the release notes page
+     */
+    getPageName() {
+        return `Release notes ${this.#config.fixVersion}_test`;
+    }
+
+    /**
+     * Get the parent page for the release notes
+     * @public
+     * @returns {string} The parent page for the release notes
+     */
+    getParentPage() {
+        return this.#config.parentPage;
+    }
+
+    /**
+     * Get the space name in which to create the release notes
+     * @public
+     * @returns {string} The space name
+     */
+    getSpace() {
+        return this.#config.space;
+    }
+
+    /**
+     * Get the projects (keys) to look for issues in a release
+     * @public
+     * @returns {Array} Project keys
+     */
+    getProjectKeys() {
+        return this.#config.projects;
+    }
 }
 
-/**
- * Get the fix version
- * @returns {string} fix version
- */
-function getFixVersion() {
-    return CONFIG.fixVersion;
-}
-
-/**
- * Get the page properties
- * @returns {Array} Page properties
- */
-function getPageProperties() {
-    return [
-        { name: "Fix Version", value: CONFIG.fixVersion },
-        ...CONFIG.releaseMetaInformation,
-        ...CONFIG.content.additionalPageProperties,
-    ];
-}
-
-/**
- * Get the sections for the release notes
- * @returns {Array} Sections
- */
-function getSections() {
-    return CONFIG.content.sections;
-}
-
-/**
- * Get the Jira field that contains the release notes
- * @returns {string} Jira release notes field
- */
-function getReleaseNotesField() {
-    return CONFIG.releaseNotesField;
-}
-
-/**
- * Get the fallback emoji
- * @returns {string} fallback emoji
- */
-function getFallbackEmoji() {
-    return CONFIG.fallBackTitleEmoji;
-}
-
-/**
- * Get the missing release notes text
- * @returns {string} The text for missing release notes
- */
-function getMissingReleaseNotesText() {
-    return CONFIG.missingReleaseNotesText;
-}
-
-/**
- * Get the name for the release notes page
- * @returns {string} The name for the release notes page
- */
-function getPageName() {
-    return `Release notes ${CONFIG.fixVersion}_test`;
-}
-
-/**
- * Get the parent page for the release notes
- * @returns {string} The parent page for the release notes
- */
-function getParentPage() {
-    return CONFIG.parentPage;
-}
-
-/**
- * Get the space name in which to create the release notes
- * @returns {string} The space name
- */
-function getSpace() {
-    return CONFIG.space;
-}
-
-/**
- * Get the projects (keys) to look for issues in a release
- * @returns {Array} Project keys
- */
-function getProjectKeys() {
-    return CONFIG.projects;
-}
-
-module.exports = {
-    validate,
-    getFixVersion,
-    getPageProperties,
-    getSections,
-    getReleaseNotesField,
-    getFallbackEmoji,
-    getMissingReleaseNotesText,
-    getPageName,
-    getParentPage,
-    getSpace,
-    getProjectKeys,
-};
+module.exports = ConfigProvider;
