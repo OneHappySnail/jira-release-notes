@@ -1,0 +1,37 @@
+{
+    "fixVersion": "",
+    "releaseMetaInformation": [
+        { "name": "ExampleMetaInfo", "value": "ExampleValue" },
+    ],
+    "projects": ["PROJ1", "PROJ2"],
+    "space": "Example Space",
+    "parentPage": "Example Parent Page",
+    "fallBackTitleEmoji": "🆕",
+    "releaseNotesField": "ExampleFielsName",
+    "missingReleaseNotesText": "No release notes available.",
+    "content": {
+        "additionalPageProperties": [
+            { "name": "ExampleAdditionalProperty", "value": "ExampleValue" }
+        ],
+        "sections": [
+            {
+                "emoji": "new",
+                "title": "Features",
+                "subTitle": "Here is what's new.",
+                "includeIssueTypes": ["Story", "Sub-Task"]
+            },
+            {
+                "emoji": "rocket",
+                "title": "Improvements",
+                "subTitle": "Existing features that got an overhaul and are now even better than before.",
+                "includeIssueTypes": ["Improvement"]
+            },
+            {
+                "emoji": "lady_beetle",
+                "title": "Bug fixes",
+                "subTitle": "Bugs are annoying, so they were removed.",
+                "includeIssueTypes": ["Bug"]
+            }
+        ]
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "name": "jira-release-notes",
+    "version": "1.0.0",
+    "description": "Create release notes from Jira in Confluence over multiple projects",
+    "main": "index.js",
+    "scripts": {
+        "release": "node index.js",
+        "genDocs": "jsdoc src -r -d docs/jsdoc"
+    },
+    "keywords": [],
+    "author": "Dino Pergola",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^1.5.1",
+        "dayjs": "^1.11.10",
+        "dotenv": "^16.3.1",
+        "joi": "^17.11.0",
+        "winston": "^3.11.0"
+    },
+    "devDependencies": {
+        "jsdoc": "^4.0.2"
+    }
+}
+
