@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @file Main program to generate release notes based on Jira versions in confluence
  */
@@ -7,19 +8,19 @@ const atlassian = require("./src/atlassian");
 const releaseNotes = require("./src/releaseNotes");
 const logger = require("./src/logger");
 const ConfigProvider = require("./src/configProvider");
-const config = require("./config.json");
+const configFile = require("./config.json");
 
 /** @const DEBUG global debug on (print full errors including stack trace to console) */
-const DEBUG = true;
+const DEBUG = false;
 
-(async function main() {
+(async function() {
     try {
         // Validate and load configuration
-        const configProvider = new ConfigProvider(config);
-        if (!configProvider.validate()) return;
+        const config = new ConfigProvider(configFile);
+        if (!config.validate()) return;
 
         // Get the space id
-        const spaceName = configProvider.getSpace();
+        const spaceName = config.getSpace();
         const spaceId = await atlassian.getSpaceId(spaceName);
         if (!spaceId) {
             throw new Error(`The space "${spaceName}" does not exist.`);
@@ -27,7 +28,7 @@ const DEBUG = true;
         logger.info(`Found space "${spaceName}" (id: ${spaceId}).`);
 
         // Get the parent page id
-        const parentPage = configProvider.getParentPage();
+        const parentPage = config.getParentPage();
         const parentPageId = await atlassian.getPageIdByName(parentPage);
         if (!parentPageId) {
             throw new Error(`The parent page "${parentPage}" does not exist.`);
@@ -35,8 +36,8 @@ const DEBUG = true;
         logger.info(`Found parent page "${parentPage}" (id: ${parentPageId}).`);
 
         // Check if release notes already exist
-        const pageName = configProvider.getPageName();
-        const fixVersion = configProvider.getFixVersion();
+        const pageName = config.getPageName();
+        const fixVersion = config.getFixVersion();
         const doReleaseNotesExist = await atlassian.getPageIdByName(pageName);
         if (doReleaseNotesExist) {
             throw new Error(
@@ -45,16 +46,16 @@ const DEBUG = true;
         }
 
         // Load all issues of the version from Jira
-        const projects = configProvider.getProjectKeys();
+        const projects = config.getProjectKeys();
         const versionIssues = await atlassian.getIssuesForVersion(
             fixVersion,
             projects
         );
 
         // Build the release notes
-        const pageProperites = configProvider.getPageProperties();
-        const sections = configProvider.getSections();
-        const fallbackEmoji = configProvider.getFallbackEmoji();
+        const pageProperites = config.getPageProperties();
+        const sections = config.getSections();
+        const fallbackEmoji = config.getFallbackEmoji();
         const pageContent = releaseNotes.createReleaseNotes(
             pageProperites,
             sections,

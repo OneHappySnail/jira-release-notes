@@ -1,3 +1,4 @@
+"use strict"
 /**
  * @module content Exposes the Content class to generate HTML content for the release notes
  */

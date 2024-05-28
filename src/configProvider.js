@@ -1,3 +1,4 @@
+"use strict"
 /**
  * @module configProvider Provides APIs to validate and get configuration
  */

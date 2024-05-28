@@ -1,3 +1,4 @@
+"use strict"
 /**
  * @module releaseNotes Provides APIs to generate release notes
  */
